@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class Movement : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class Movement : MonoBehaviour
     [SerializeField] private InputAction _rotation;
     [SerializeField] private float _thrustStrength = 100f;
     [SerializeField] private float _rotationStrength = 100f;
+    [SerializeField] private AudioClip _mainEngineClip;
+    
     
     private Rigidbody rocketRb;
     AudioSource rocketAudioSource;
@@ -35,9 +38,10 @@ public class Movement : MonoBehaviour
         if (_thrust.IsPressed())
         {
             rocketRb.AddRelativeForce(Vector3.up * _thrustStrength * Time.fixedDeltaTime);
+            
             if (!rocketAudioSource.isPlaying)
             {
-                rocketAudioSource.Play();
+                rocketAudioSource.PlayOneShot(_mainEngineClip);
             }
         }
         else
