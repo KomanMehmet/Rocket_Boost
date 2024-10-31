@@ -10,6 +10,7 @@ public class Movement : MonoBehaviour
     [SerializeField] private float _rotationStrength = 100f;
     
     private Rigidbody rocketRb;
+    AudioSource rocketAudioSource;
 
     private void OnEnable()
     {
@@ -20,6 +21,7 @@ public class Movement : MonoBehaviour
     private void Start()
     {
         rocketRb = GetComponent<Rigidbody>();
+        rocketAudioSource = GetComponent<AudioSource>();
     }
 
     private void FixedUpdate()
@@ -33,6 +35,14 @@ public class Movement : MonoBehaviour
         if (_thrust.IsPressed())
         {
             rocketRb.AddRelativeForce(Vector3.up * _thrustStrength * Time.fixedDeltaTime);
+            if (!rocketAudioSource.isPlaying)
+            {
+                rocketAudioSource.Play();
+            }
+        }
+        else
+        {
+            rocketAudioSource.Stop();
         }
     }
 
